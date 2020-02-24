@@ -1,5 +1,5 @@
 require_relative './script'
-require_relative "../framework"
+require_relative "../code_wars_framework"
 
 Test.describe("Basic Tests") do
     Test.assert_equals(array_diff([1,2], [1]), [2], "a was [1,2], b was [1], expected [2]")
