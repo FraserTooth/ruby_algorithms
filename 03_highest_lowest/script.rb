@@ -15,5 +15,6 @@
 
 
 def high_and_low(numbers)
-    #your code here
+    array = numbers.split(" ").map(&:to_i)
+    return "#{array.max()} #{array.min()}"
   end

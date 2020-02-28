@@ -36,10 +36,10 @@ class Test
         success_msg = "Test Passed"
         success_msg += ": " + options[:success_msg] if options[:success_msg]
 
-        log '<div class="console-passed">' + success_msg + '</div>', true
+        log success_msg, true
       else
         message ||= "Something is wrong"
-        log "<div class='console-failed'>Test Failed: " + message.to_s + "</div>", true
+        log "Test Failed: " + message.to_s, true
 
         if $describing
           @@failed << Test::Error.new(message)
