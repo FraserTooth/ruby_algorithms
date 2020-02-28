@@ -33,13 +33,14 @@ class Test
       log_call(:expect)
 
       if block_given? ? block.call() : !!passed
-        success_msg = "Test Passed"
+        success_msg = "   Test Passed"
         success_msg += ": " + options[:success_msg] if options[:success_msg]
+        success_msg += "\n"
 
         log success_msg, true
       else
         message ||= "Something is wrong"
-        log "Test Failed: " + message.to_s, true
+        log "   Test Failed: " + message.to_s, true
 
         if $describing
           @@failed << Test::Error.new(message)
@@ -54,13 +55,10 @@ class Test
       log_call(:describe)
       begin
         $describing = true
-        @@html << '<div class="console-describe"><h6>'
-        @@html << message
-        @@html << ':</h6>'
+        @@html << "--- " + message + " ---\n"
         yield
       ensure
         $describing = false
-        @@html << '</div>'
         puts @@html.join
         @@html.clear
         @@before_blocks.clear
