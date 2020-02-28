@@ -1,5 +1,6 @@
 # Copied From:
 # https://github.com/Codewars/kata-test-framework-ruby.git
+# Edited for the command line
 # To make local testing easier to start
 
 $describing = false
