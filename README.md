@@ -7,6 +7,7 @@ Solutions to Various Algorithm Problems in Ruby
 1. Array Difference - Calculate the Difference Between Two Arrays (_From CodeWars_)
 2. Who Likes - Array Question, Version of the Facebook likes String, solved using If/Else (_From CodeWars_)
 3. Highest and Lowest - String splits and Array Methods, including shorthand Map (_From CodeWars_)
+4. Longest Consecutive Concatenation - Array of Strings Problem, solved using basic Ruby (_From CodeWars_)
 
 ## Running Files
 

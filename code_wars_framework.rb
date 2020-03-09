@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Copied From:
 # https://github.com/Codewars/kata-test-framework-ruby.git
 # Edited for the command line
@@ -6,7 +8,6 @@
 $describing = false
 
 class Test
-
   class Error < StandardError
   end
 
@@ -17,7 +18,6 @@ class Test
   @@after_blocks = []
 
   class << self
-
     def log(message, no_line_break = false)
       if $describing
         message = message.to_s
@@ -33,30 +33,29 @@ class Test
     def expect(passed = nil, message = nil, options = {}, &block)
       log_call(:expect)
 
-      if block_given? ? block.call() : !!passed
-        success_msg = "   Test Passed"
-        success_msg += ": " + options[:success_msg] if options[:success_msg]
+      if block_given? ? block.call : !!passed
+        success_msg = '   Test Passed'
+        success_msg += ': ' + options[:success_msg] if options[:success_msg]
         success_msg += "\n"
 
         log success_msg, true
       else
-        message ||= "Something is wrong"
-        log "   Test Failed: " + message.to_s, true
+        message ||= 'Something is wrong'
+        log '   Test Failed: ' + message.to_s, true
 
         if $describing
           @@failed << Test::Error.new(message)
         else
-          raise Test::Error, (message)
+          raise Test::Error, message
         end
       end
-
     end
 
     def describe(message)
       log_call(:describe)
       begin
         $describing = true
-        @@html << "--- " + message + " ---\n"
+        @@html << '--- ' + message + " ---\n"
         yield
       ensure
         $describing = false
@@ -72,21 +71,13 @@ class Test
     def it(message)
       log_call(:it)
       begin
-        @@html << '<div class="console-it"><h6>'
-        @@html << message
-        @@html << ':</h6>'
-        @@before_blocks.each do |block|
-          block.call
-        end
+        @@html << '--- ' + message + " ---\n"
+        @@before_blocks.each(&:call)
         begin
           yield
         ensure
-          @@after_blocks.each do |block|
-            block.call
-          end
+          @@after_blocks.each(&:call)
         end
-      ensure
-        @@html << '</div>'
       end
     end
 
@@ -103,8 +94,8 @@ class Test
 
       begin
         block.call
-      rescue Test::Error => ex
-        Test.expect(false, 'Expected test cases to pass: ' + ((message and message.to_s)|| ex.message))
+      rescue Test::Error => e
+        Test.expect(false, 'Expected test cases to pass: ' + ((message && message.to_s) || e.message))
       end
     end
 
@@ -114,7 +105,7 @@ class Test
       passed = false
       begin
         block.call
-      rescue Test::Error => ex
+      rescue Test::Error => e
         passed = true
       end
 
@@ -127,7 +118,7 @@ class Test
       passed = false
       begin
         block.call
-      rescue
+      rescue StandardError
         passed = true
       end
 
@@ -139,10 +130,10 @@ class Test
       begin
         block.call
         Test.expect(true)
-      rescue Test::Error => test_ex
-      rescue => ex
+      rescue Test::Error => e
+      rescue StandardError => e
         message ||= 'Unexpected error was raised.'
-        Test.expect(false, message + ": " + ex.message)
+        Test.expect(false, message + ': ' + e.message)
       end
     end
 
@@ -150,7 +141,7 @@ class Test
       log_call(:assert_equals)
       if actual != expected
         msg = msg ? msg + ' -  ' : ''
-        message = "\#{msg}\Expected: " + expected.inspect + ", instead got: " + actual.inspect
+        message = "\#{msg}\Expected: " + expected.inspect + ', instead got: ' + actual.inspect
         Test.expect(false, message)
       else
         options[:success_msg] ||= 'Value == ' + expected.inspect
@@ -195,7 +186,6 @@ class Test
       call_count(name)
       @@method_calls[name] += 1
     end
-
   end
 end
 
